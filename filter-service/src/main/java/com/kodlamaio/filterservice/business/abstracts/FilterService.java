@@ -1,7 +1,7 @@
 package com.kodlamaio.filterservice.business.abstracts;
 
-import com.kodlamaio.filterservice.business.dto.GetAllFilterResponse;
-import com.kodlamaio.filterservice.business.dto.GetFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetAllFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 
 import java.util.List;

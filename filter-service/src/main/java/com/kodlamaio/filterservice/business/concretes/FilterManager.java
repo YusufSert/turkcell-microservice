@@ -2,8 +2,8 @@ package com.kodlamaio.filterservice.business.concretes;
 
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
-import com.kodlamaio.filterservice.business.dto.GetAllFilterResponse;
-import com.kodlamaio.filterservice.business.dto.GetFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetAllFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 import com.kodlamaio.filterservice.repository.FilterRepository;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,9 @@
-package com.kodlamaio.filterservice.business.dto;
+package com.kodlamaio.filterservice.business.dto.reponses;
+
 
 import java.util.UUID;
 
-public class GetAllFilterResponse {
+public class GetFilterResponse {
     private String id;
     private UUID carId;
     private UUID modelId;

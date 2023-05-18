@@ -1,4 +1,4 @@
-package com.kodlamaio.filterservice.kafka.consumer;
+package com.kodlamaio.filterservice.business.kafka.consumer;
 
 import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
