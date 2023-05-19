@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentalCreatedEvent implements Event {
+public class RentalCreatedEvent extends Event {
     private UUID carId;
 }
 

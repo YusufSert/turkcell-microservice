@@ -9,7 +9,6 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateBrandR
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllBrandsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetBrandResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
-import com.kodlamaio.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.business.rules.BrandBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Brand;
 import com.kodlamaio.inventoryservice.repository.BrandRepository;
@@ -25,7 +24,6 @@ public class BrandManager implements BrandService {
     private final BrandRepository repository;
     private final ModelMapperService mapper;
     private final BrandBusinessRules rules;
-    private final InventoryProducer producer;
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
@@ -71,10 +69,7 @@ public class BrandManager implements BrandService {
     public void delete(UUID id) {
         rules.checkIfBrandExists(id);
         repository.deleteById(id);
-        sendKafkaBrandDeletedEvent(id);
     }
 
-    private void sendKafkaBrandDeletedEvent(UUID id) {
-        producer.sendMessage(new BrandDeletedEvent(id));
-    }
+
 }
