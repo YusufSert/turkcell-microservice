@@ -49,7 +49,7 @@ resilience4j:
     instances:
       inventory-circuit:
         registerHealthIndicator: true
-        eventConsumerBufferSize: 10
+        eventConsumerBufferSize: 2
         failureRateThreshold: 50
         minimumNumberOfCalls: 5
         automaticTransitionFromOpenToHalfOpenEnabled: true
@@ -61,7 +61,7 @@ resilience4j:
       instances:
         inventory-retry:
           max-attempts: 5
-          wait-duration: 15s
+          wait-duration: 1s
   ratelimiter:
     instances:
       inventory-limiter:

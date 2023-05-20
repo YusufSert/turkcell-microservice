@@ -20,8 +20,8 @@ public class RentalBusinessRules {
         }
     }
 
-    public void ensureCarIsAvailable(UUID carId) {
-        var response = carClient.checkIfCarAvailable(carId);
+    public void checkIfCarAvailableForRent(UUID carId) {
+        var response = carClient.checkIfCarAvailableInInventory(carId);
         if (!response.isSuccess()) {
             throw new BusinessException(response.getMessage());
         }

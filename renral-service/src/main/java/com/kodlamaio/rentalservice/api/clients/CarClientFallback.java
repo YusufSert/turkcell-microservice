@@ -10,8 +10,8 @@ import java.util.UUID;
 @Component
 public class CarClientFallback implements CarClient {
 
-    public ClientResponse checkIfCarAvailable(UUID carId) {
-        log.info("INVENTORY SERVICE IS DOWN!");
-        throw new RuntimeException("INVENTORY-SERVICE NOT AVAILABLE RIGHT NOW!");
+    public ClientResponse checkIfCarAvailableInInventory(UUID carId) {
+        log.info("Couldn't connect to inventory server not working properly !");
+        return new ClientResponse(false, "Couldn't connect to inventory server");
     }
 }

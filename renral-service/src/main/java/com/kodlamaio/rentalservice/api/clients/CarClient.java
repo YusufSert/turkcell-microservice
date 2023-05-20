@@ -20,5 +20,5 @@ public interface CarClient {
     @Retry(name = "inventory-retry")
     @RateLimiter(name = "inventory-limiter")
     @GetMapping(value = "/api/cars/check-car-available/{carId}")
-    ClientResponse checkIfCarAvailable(@PathVariable UUID carId);
+    ClientResponse checkIfCarAvailableInInventory(@PathVariable UUID carId);
 }

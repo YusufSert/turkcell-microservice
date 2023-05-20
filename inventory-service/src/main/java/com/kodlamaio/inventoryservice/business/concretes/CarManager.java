@@ -80,15 +80,9 @@ public class CarManager implements CarService {
         sendKafkaCarDeletedEvent(id);
     }
 
-    @Override
-    public ClientResponse checkIfCarAvailable(UUID id) {
-        var reponse = new ClientResponse();
-        validateCarAvailability(id, reponse);
-        return reponse;
-    }
 
     @Override
-    public void changeStateByCarId(State state, UUID id) {
+    public void changeCarStateByCarId(State state, UUID id) {
         repository.changeStateByCarId(state, id);
     }
 
@@ -100,8 +94,13 @@ public class CarManager implements CarService {
     private void sendKafkaCarDeletedEvent(UUID id) {
         producer.sendMessage(new CarDeletedEvent(id), "car-created");
     }
-
-    private void validateCarAvailability(UUID id, ClientResponse response) {
+    @Override
+    public ClientResponse checkIfCarAvailable(UUID id) {
+        var reponse = new ClientResponse();
+        checkCarAvailabilityAndSetupResponse(id, reponse);
+        return reponse;
+    }
+    private void checkCarAvailabilityAndSetupResponse(UUID id, ClientResponse response) {
         try {
             rules.checkIfCarExists(id);
             rules.checkCarAvailability(id);

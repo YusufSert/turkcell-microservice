@@ -20,7 +20,7 @@ public class RentalConsumer {
         groupId = "inventory-rental-create"
     )
     public void consume(RentalCreatedEvent event) {
-        service.changeStateByCarId(State.Rented, event.getCarId());
+        service.changeCarStateByCarId(State.Rented, event.getCarId());
         log.info("Rental created event consumed {}", event);
     }
 
@@ -29,7 +29,7 @@ public class RentalConsumer {
         groupId = "inventory-rental-delete"
     )
     public void consume(RentalDeletedEvent event) {
-        service.changeStateByCarId(State.Available, event.getCarId());
+        service.changeCarStateByCarId(State.Available, event.getCarId());
         log.info("Rental deleted event consumed {}", event);
     }
 }
