@@ -30,11 +30,43 @@ eureka:
     instance-id: ${spring.application.name}:${random.value}
     prefer-ip-address: true
 server:
-  port: 0
+  port: 8083
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
 
 resilience4j:
-  retry:
+  circuitbreaker:
     instances:
-      rental-inventory:
-        max-attempts: 5
-        wait-duration: 15s
+      inventory-circuit:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+  retry:
+      instances:
+        inventory-retry:
+          max-attempts: 5
+          wait-duration: 15s
+  ratelimiter:
+    instances:
+      inventory-limiter:
+        registerHealthIndicator: true
+        limitForPeriod: 10
+        limitRefreshPeriod: 4s
+        timeoutDuration: 5s
+

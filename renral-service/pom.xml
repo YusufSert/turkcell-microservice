@@ -32,10 +32,12 @@
             <version>3.0.6</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+
+        <!-- Common Package-->
         <dependency>
             <groupId>com.kodlamaio</groupId>
             <artifactId>common-package</artifactId>

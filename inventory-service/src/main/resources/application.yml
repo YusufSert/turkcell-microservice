@@ -26,4 +26,4 @@ eureka:
     instance-id: ${spring.application.name}:${random.value}
     prefer-ip-address: true
 server:
-  port: 8081
+  port: 8080
