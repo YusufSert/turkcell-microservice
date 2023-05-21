@@ -1,6 +1,6 @@
-package com.kodlamaio.rentalservice.api.clients;
+package com.kodlamaio.rentalservice.api.clients.inventoryClient;
 
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
