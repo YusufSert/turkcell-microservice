@@ -1,6 +1,6 @@
 package com.kodlamaio.filterservice.business.abstracts;
 
-import com.kodlamaio.filterservice.business.dto.reponses.GetAllFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.reponses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FilterService {
-    List<GetAllFilterResponse> getAll();
+    List<GetAllFiltersResponse> getAll();
     GetFilterResponse getById(String id);
     void add(Filter filter);
     void delete(String id);

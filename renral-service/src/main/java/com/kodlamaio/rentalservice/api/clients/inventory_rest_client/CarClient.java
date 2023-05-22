@@ -1,4 +1,4 @@
-package com.kodlamaio.rentalservice.api.clients.inventoryClient;
+package com.kodlamaio.rentalservice.api.clients.inventory_rest_client;
 
 import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -16,9 +16,6 @@ import java.util.UUID;
 @Service
 public interface CarClient {
 
-    @CircuitBreaker(name = "inventory-circuit")
-    @Retry(name = "inventory-retry")
-    @RateLimiter(name = "inventory-limiter")
     @GetMapping(value = "/api/cars/check-car-available/{carId}")
     ClientResponse checkIfCarAvailableInInventory(@PathVariable UUID carId);
 }

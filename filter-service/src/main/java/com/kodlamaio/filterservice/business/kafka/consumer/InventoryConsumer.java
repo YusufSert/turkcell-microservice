@@ -19,8 +19,8 @@ public class InventoryConsumer {
     private final ModelMapperService mapper;
 
     @KafkaListener(
-        topics = "car-created",
-        groupId = "car-create"
+        topics = "inventory-car-created",
+        groupId = "1"
     )
     public void consume(CarCreatedEvent event) {
         Filter filter = mapper.forRequest().map(event, Filter.class);
@@ -29,8 +29,8 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-        topics = "car-deleted",
-        groupId = "car-delete"
+        topics = "inventory-car-deleted",
+        groupId = "1"
     )
     public void consume(CarDeletedEvent event) {
         service.deleteByCarId(event.getCarId());
@@ -38,8 +38,8 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-        topics = "brand-deleted",
-        groupId = "brand-delete"
+        topics = "inventory-brand-deleted",
+        groupId = "1"
     )
     public void consume(BrandDeletedEvent event) {
         service.deleteAllByBrandId(event.getBrandId());

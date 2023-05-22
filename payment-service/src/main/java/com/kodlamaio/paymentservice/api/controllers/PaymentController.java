@@ -1,4 +1,4 @@
-package com.kodlamaio.paymentservice.controllers;
+package com.kodlamaio.paymentservice.api.controllers;
 
 
 import com.kodlamaio.commonpackage.utils.dto.requests.PaymentRequest;
@@ -47,7 +47,7 @@ public class PaymentController {
     }
 
     @PostMapping("/make-payment")
-    public ClientResponse makePayment(@RequestBody PaymentRequest request) {
+    public <T extends PaymentRequest> ClientResponse makePayment(@RequestBody T request) {
         return service.makePayment(request);
     }
 

@@ -1,4 +1,4 @@
-package com.kodlamaio.rentalservice.api.clients.inventoryClient;
+package com.kodlamaio.rentalservice.api.clients.inventory_rest_client;
 
 import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import lombok.extern.slf4j.Slf4j;

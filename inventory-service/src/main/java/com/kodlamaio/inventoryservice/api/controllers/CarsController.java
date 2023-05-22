@@ -1,6 +1,6 @@
 package com.kodlamaio.inventoryservice.api.controllers;
 
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryservice.business.dto.requests.update.UpdateCarRequest;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/cars")
+@RequestMapping("api/cars")
 public class CarsController {
     private final CarService service;
 
@@ -39,7 +39,7 @@ public class CarsController {
     }
 
     @PutMapping("/{id}")
-    public UpdateCarResponse update(@PathVariable UUID id, @Valid @RequestBody UpdateCarRequest request) {
+    public UpdateCarResponse update(@PathVariable UUID id,  @Valid@ RequestBody UpdateCarRequest request) {
         return service.update(id, request);
     }
 

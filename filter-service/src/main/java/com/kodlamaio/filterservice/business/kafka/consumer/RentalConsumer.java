@@ -17,7 +17,7 @@ public class RentalConsumer {
 
     @KafkaListener(
         topics = "rental-created",
-        groupId = "filter-rental-create"
+        groupId = "1"
     )
     public void consume(RentalCreatedEvent event) {
         Filter filter = service.getByCarId(event.getCarId());
@@ -27,7 +27,7 @@ public class RentalConsumer {
     }
     @KafkaListener(
         topics = "rental-deleted",
-        groupId = "filter-rental-delete"
+        groupId = "1"
     )
     public void consume(RentalDeletedEvent event) {
         var filter = service.getByCarId(event.getCarId());

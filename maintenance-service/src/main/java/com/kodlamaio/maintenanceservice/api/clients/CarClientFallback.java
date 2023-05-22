@@ -1,6 +1,6 @@
 package com.kodlamaio.maintenanceservice.api.clients;
 
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 
 import java.util.UUID;
 

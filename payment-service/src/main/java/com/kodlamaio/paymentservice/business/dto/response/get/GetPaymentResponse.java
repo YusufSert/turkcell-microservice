@@ -1,11 +1,10 @@
-package com.kodlamaio.paymentservice2.business.dto.response.get;
+package com.kodlamaio.paymentservice.business.dto.response.get;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor

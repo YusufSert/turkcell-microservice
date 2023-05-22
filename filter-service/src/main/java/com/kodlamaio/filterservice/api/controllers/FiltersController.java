@@ -1,7 +1,7 @@
 package com.kodlamaio.filterservice.api.controllers;
 
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
-import com.kodlamaio.filterservice.business.dto.reponses.GetAllFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.reponses.GetFilterResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class FiltersController {
     private final FilterService service;
 
     @GetMapping
-    public List<GetAllFilterResponse> getAll() {
+    public List<GetAllFiltersResponse> getAll() {
         return service.getAll();
     }
 

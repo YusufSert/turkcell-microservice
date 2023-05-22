@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class PaymentRequest {
     private String cardNumber;
     private String cardCvv;
     private int year;
     private int month;
     private String cardHolderName;
+    private double price;
 }

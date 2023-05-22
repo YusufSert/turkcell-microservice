@@ -1,9 +1,9 @@
 package com.kodlamaio.maintenanceservice.business.rules;
 
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.maintenanceservice.api.clients.CarClient;
-import com.kodlamaio.maintenanceservice.entities.State;
+import com.kodlamaio.maintenanceservice.entities.Maintenance;
 import com.kodlamaio.maintenanceservice.repository.MaintenanceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,26 +19,35 @@ public class MaintenanceBusinessRules {
 
     public void checkIfMaintenanceExists(UUID id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("MAINTENANCE_NOT_EXISTS");
+            throw new BusinessException("There is no any maintenance record found by this id");
         }
     }
 
     public void checkIfCarUnderMaintenance(UUID carId) {
-        if (repository.existsByCarIdAndIsCompletedIsFalse(carId)) {
+        if (repository.existsByCarIdAndCompletedIsFalse(carId)) {
             throw new BusinessException("CAR_IS_CURRENTLY_UNDER_MAINTENANCE");
         }
     }
 
-    public void isRegisteredAndCompletedForMaintenance(UUID carId) {
-        if (!repository.existsByCarIdAndIsCompletedIsFalse(carId)) {
-            throw new BusinessException("CAR_NOT_REGISTERED_FOR_MAINTENANCE"); // carId - false
+    public void checkIfCarRegisteredAndNotCompleted(UUID carId) {
+        if (!repository.existsByCarIdAndCompletedIsFalse(carId)) {
+            throw new BusinessException("Car is not currently in maintenance."); // carId - false
         }
     }
 
     public void checkCarAvailabilityForMaintenance(UUID carId) {
        ClientResponse response = carClient.checkIfCarAvailable(carId);
        if(!response.isSuccess()){
-           throw new BusinessException("Car not availability for maintenance");
+           throw new BusinessException(response.getMessage());
        }
+    }
+
+
+    public void isDeletable(UUID id) {
+        checkIfMaintenanceExists(id);
+        Maintenance maintenance = repository.findById(id).orElseThrow();
+        if(!maintenance.isCompleted()) {
+            throw new BusinessException("Car hasn't complete his maintenance !");
+        }
     }
 }

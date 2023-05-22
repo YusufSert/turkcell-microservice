@@ -1,8 +1,17 @@
 package com.kodlamaio.filterservice.business.dto.reponses;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class GetFilterResponse {
     private String id;
     private UUID carId;

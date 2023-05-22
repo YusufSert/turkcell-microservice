@@ -1,16 +1,14 @@
-package com.kodlamaio.paymentservice2.business.abstracts;
+package com.kodlamaio.paymentservice.business.abstracts;
 
 
-
-import com.kodlamaio.commonpackage.utils.dto.request.Payment;
-import com.kodlamaio.commonpackage.utils.dto.request.PaymentRentalRequest;
-import com.kodlamaio.commonpackage.utils.dto.response.ClientResponse;
-import com.kodlamaio.paymentservice2.business.dto.request.create.CreatePaymentRequest;
-import com.kodlamaio.paymentservice2.business.dto.request.update.UpdatePaymentRequest;
-import com.kodlamaio.paymentservice2.business.dto.response.create.CreatePaymentResponse;
-import com.kodlamaio.paymentservice2.business.dto.response.get.GetAllPaymentResponse;
-import com.kodlamaio.paymentservice2.business.dto.response.get.GetPaymentResponse;
-import com.kodlamaio.paymentservice2.business.dto.response.update.UpdatePaymentResponse;
+import com.kodlamaio.commonpackage.utils.dto.requests.PaymentRequest;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.paymentservice.business.dto.request.create.CreatePaymentRequest;
+import com.kodlamaio.paymentservice.business.dto.request.update.UpdatePaymentRequest;
+import com.kodlamaio.paymentservice.business.dto.response.create.CreatePaymentResponse;
+import com.kodlamaio.paymentservice.business.dto.response.get.GetAllPaymentResponse;
+import com.kodlamaio.paymentservice.business.dto.response.get.GetPaymentResponse;
+import com.kodlamaio.paymentservice.business.dto.response.update.UpdatePaymentResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,8 +17,10 @@ public interface PaymentService {
     List<GetAllPaymentResponse> getAll();
     GetPaymentResponse getById(UUID id);
     CreatePaymentResponse add(CreatePaymentRequest request);
+
+    <T extends PaymentRequest> ClientResponse makePayment(T request);
+
     UpdatePaymentResponse update(UUID id, UpdatePaymentRequest request);
     void delete(UUID id);
-    ClientResponse makePayment(PaymentRentalRequest request);
 
 }

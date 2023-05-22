@@ -3,7 +3,7 @@ package com.kodlamaio.inventoryservice.business.concretes;
 import com.kodlamaio.commonpackage.events.inventory.CarCreatedEvent;
 import com.kodlamaio.commonpackage.events.inventory.CarDeletedEvent;
 import com.kodlamaio.commonpackage.kafka.producer.KafkaProducer;
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
@@ -80,27 +80,15 @@ public class CarManager implements CarService {
         sendKafkaCarDeletedEvent(id);
     }
 
-
-    @Override
-    public void changeCarStateByCarId(State state, UUID id) {
-        repository.changeStateByCarId(state, id);
-    }
-
-    private void sendKafkaCarCreatedEvent(Car createdCar) {
-        var event = mapper.forResponse().map(createdCar, CarCreatedEvent.class);
-        producer.sendMessage(event, "car-created");
-    }
-
-    private void sendKafkaCarDeletedEvent(UUID id) {
-        producer.sendMessage(new CarDeletedEvent(id), "car-created");
-    }
     @Override
     public ClientResponse checkIfCarAvailable(UUID id) {
-        var reponse = new ClientResponse();
-        checkCarAvailabilityAndSetupResponse(id, reponse);
-        return reponse;
+        return checkCarAvailabilityAndSetUpResponse(id);
     }
-    private void checkCarAvailabilityAndSetupResponse(UUID id, ClientResponse response) {
+
+
+
+    private ClientResponse checkCarAvailabilityAndSetUpResponse(UUID id) {
+        var response = new ClientResponse();
         try {
             rules.checkIfCarExists(id);
             rules.checkCarAvailability(id);
@@ -109,5 +97,24 @@ public class CarManager implements CarService {
             response.setSuccess(false);
             response.setMessage(exception.getMessage());
         }
+        return response;
     }
+
+
+    //Kafka consumers
+    private void sendKafkaCarCreatedEvent(Car createdCar) {
+        var event = mapper.forResponse().map(createdCar, CarCreatedEvent.class);
+        producer.sendMessage(event, "inventory-car-created");
+    }
+
+    private void sendKafkaCarDeletedEvent(UUID id) {
+        producer.sendMessage(new CarDeletedEvent(id), "inventory-car-created");
+    }
+
+    //Consumer uses this method //
+    @Override
+    public void changeCarStateByCarId(State state, UUID id) {
+        repository.changeStateByCarId(state, id);
+    }
+
 }

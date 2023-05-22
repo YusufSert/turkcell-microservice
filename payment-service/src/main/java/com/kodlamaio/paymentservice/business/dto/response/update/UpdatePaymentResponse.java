@@ -1,4 +1,4 @@
-package com.kodlamaio.paymentservice2.business.dto.response.update;
+package com.kodlamaio.paymentservice.business.dto.response.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

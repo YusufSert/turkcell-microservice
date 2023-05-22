@@ -3,7 +3,7 @@ package com.kodlamaio.maintenanceservice.business.concretes;
 import com.kodlamaio.commonpackage.events.maintenance.MaintenanceCreatedEvent;
 import com.kodlamaio.commonpackage.events.maintenance.MaintenanceReturnEvent;
 import com.kodlamaio.commonpackage.kafka.producer.KafkaProducer;
-import com.kodlamaio.commonpackage.utils.constants.Paths;
+import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.maintenanceservice.business.abstracts.MaintenanceService;
 import com.kodlamaio.maintenanceservice.business.dto.reponses.CreateMaintenanceResponse;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 @Service
 @AllArgsConstructor
@@ -34,21 +33,23 @@ public class MaintenanceManager implements MaintenanceService {
     @Override
     public List<GetAllMaintenancesResponse> getAll() {
         List<Maintenance>maintenances = repository.findAll();
-        List<GetAllMaintenancesResponse> maintenancesResponses = maintenances
-                .stream().map(maintenance -> mapper.forResponse().map(maintenance, GetAllMaintenancesResponse.class)).toList();
-        return maintenancesResponses; }
+        return maintenances
+                .stream()
+                .map(maintenance -> mapper.forResponse().map(maintenance, GetAllMaintenancesResponse.class))
+            .toList();
+    }
 
     @Override
     public GetMaintenanceResponse getById(UUID id) {
+        rules.checkIfMaintenanceExists(id);
         var maintenance = repository.findById(id).orElseThrow();
-        var maintenancesResponses = mapper.forResponse().map(maintenance,GetMaintenanceResponse.class);
-        return maintenancesResponses;
+        return mapper.forResponse().map(maintenance, GetMaintenanceResponse.class);
     }
 
     @Override
     public GetMaintenanceResponse returnCarFromMaintenance(UUID carId) {
-        rules.isRegisteredAndCompletedForMaintenance(carId);
-        Maintenance maintenance = repository.findMaintenanceByCarIdAndIsCompletedFalse(carId);
+        rules.checkIfCarRegisteredAndNotCompleted(carId);
+        Maintenance maintenance = repository.findMaintenanceByCarIdAndCompletedIsFalse(carId);
         maintenance.setEndDate(LocalDateTime.now());
         maintenance.setCompleted(true);
         sendKafkaMaintenanceReturnEvent(carId);
@@ -58,7 +59,9 @@ public class MaintenanceManager implements MaintenanceService {
 
     @Override
     public CreateMaintenanceResponse add(CreateMaintenanceRequest request) {
-        rules.checkCarAvailabilityForMaintenance(request.getCarId());
+        rules.checkCarAvailabilityForMaintenance(request.getCarId()); //car.state != available -> throws
+        //car.state = maintenance if => This.Table.Contains(carId, completed.false)
+        //rules.checkIfCarUnderMaintenance(request.getCarId()); -> (car.state == maintenance) -> throws
         var maintenance = mapper.forRequest().map(request, Maintenance.class);
         maintenance.setCompleted(false);
         maintenance.setStartDate(LocalDateTime.now());
@@ -79,7 +82,7 @@ public class MaintenanceManager implements MaintenanceService {
 
     @Override
     public void delete(UUID id) {
-        rules.checkIfMaintenanceExists(id);
+        rules.isDeletable(id);
         repository.deleteById(id);
     }
 
@@ -88,7 +91,7 @@ public class MaintenanceManager implements MaintenanceService {
     }
 
     private void sendKafkaMaintenanceReturnEvent(UUID carId) {
-        producer.sendMessage(new MaintenanceReturnEvent(carId), "maintenance-return");
+        producer.sendMessage(new MaintenanceReturnEvent(carId), "maintenance-returned");
     }
 
 }

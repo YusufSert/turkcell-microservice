@@ -12,6 +12,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MaintenanceDeletedEvent  implements Event {
+public class MaintenanceDeletedEvent  extends Event {
     private UUID carId;
 }

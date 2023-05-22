@@ -2,7 +2,7 @@ package com.kodlamaio.filterservice.business.concretes;
 
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
-import com.kodlamaio.filterservice.business.dto.reponses.GetAllFilterResponse;
+import com.kodlamaio.filterservice.business.dto.reponses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.reponses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 import com.kodlamaio.filterservice.repository.FilterRepository;
@@ -21,10 +21,10 @@ public class FilterManager implements FilterService {
     private final ModelMapperService mapper;
 
     @Override
-    public List<GetAllFilterResponse> getAll() {
+    public List<GetAllFiltersResponse> getAll() {
         return repository.findAll()
             .stream()
-            .map(filter -> mapper.forResponse().map(filter, GetAllFilterResponse.class))
+            .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
             .toList();
     }
 
