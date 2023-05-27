@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: rental-service
+  datasource:
+    username: postgres
+    password: 'Banana@@'
+    url: jdbc:postgresql://localhost:5432/rentaldb_t2
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  kafka:
+    producer:
+      bootstrap-servers: http://localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
+server:
+  port: 8083
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory-circuit:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 2
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+  retry:
+      instances:
+        inventory-retry:
+          max-attempts: 5
+          wait-duration: 1s
+  ratelimiter:
+    instances:
+      inventory-limiter:
+        registerHealthIndicator: true
+        limitForPeriod: 10
+        limitRefreshPeriod: 4s
+        timeoutDuration: 5s
+
