@@ -18,6 +18,21 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+<<<<<<< HEAD
 volumes:
   kafka_data:
   mongodb_data:
+=======
+  mongodb2:
+    container_name: turkcell2-invoicedb
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data2:/data/db
+
+volumes:
+  kafka_data:
+  mongodb_data:
+  mongodb_data2:
+>>>>>>> origin/main

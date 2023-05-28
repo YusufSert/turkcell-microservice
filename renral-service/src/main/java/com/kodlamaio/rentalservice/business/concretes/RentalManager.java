@@ -1,9 +1,19 @@
 package com.kodlamaio.rentalservice.business.concretes;
 
+<<<<<<< HEAD
 import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
 import com.kodlamaio.commonpackage.kafka.producer.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
+=======
+import com.kodlamaio.commonpackage.events.Invoice.InvoiceCreatedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
+import com.kodlamaio.commonpackage.kafka.producer.KafkaProducer;
+import com.kodlamaio.commonpackage.utils.dto.responses.GetCarResponse;
+import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
+import com.kodlamaio.rentalservice.api.clients.inventory_rest_client.CarClient;
+>>>>>>> origin/main
 import com.kodlamaio.rentalservice.api.clients.paymentl_rest_client.PaymentClient;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.CreateRentalRequest;
@@ -18,6 +28,10 @@ import com.kodlamaio.rentalservice.repository.RentalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+=======
+import java.time.LocalDate;
+>>>>>>> origin/main
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +42,11 @@ public class RentalManager implements RentalService {
     private final ModelMapperService mapper;
     private final RentalBusinessRules rules;
     private final KafkaProducer producer;
+<<<<<<< HEAD
     private final PaymentClient client;
+=======
+    private final CarClient client;
+>>>>>>> origin/main
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -53,6 +71,7 @@ public class RentalManager implements RentalService {
         var rental = mapper.forRequest().map(request, Rental.class);
         rules.setUpRentalRecord(rental);
         rules.setUpAndMakePayment(request.getPaymentCardInfo(), rental.getTotalPrice());
+<<<<<<< HEAD
         repository.save(rental);
         sendKafkaRentalCreatedEvent(request.getCarId());
         return mapper.forResponse().map(rental, CreateRentalResponse.class);
@@ -62,6 +81,30 @@ public class RentalManager implements RentalService {
 
 
 
+=======
+
+
+        repository.save(rental);
+        var invoiceEvent = makeInvoiceCreatedEvent(request);
+        sendKafkaRentalCreatedEvent(request.getCarId());
+        sendKafkaInvoiceCreatedEvent(invoiceEvent);
+        return mapper.forResponse().map(rental, CreateRentalResponse.class);
+    }
+
+    public InvoiceCreatedEvent makeInvoiceCreatedEvent(CreateRentalRequest request) {
+        InvoiceCreatedEvent event = new InvoiceCreatedEvent();
+        GetCarResponse car = client.getCarById(request.getCarId());
+        event.setBrandName(car.getModelBrandName());
+        event.setPlate(car.getPlate());
+        event.setCardHolder(request.getPaymentCardInfo().getCardHolderName());
+        event.setModelYear(car.getModelYear());
+        event.setDailyPrice(request.getDailyPrice());
+        event.setTotalPrice(request.getDailyPrice() * request.getRentedForDays());
+        event.setRentedForDays(request.getRentedForDays());
+        event.setRentedAt(LocalDate.now());
+        return event;
+    }
+>>>>>>> origin/main
 
     @Override
     public UpdateRentalResponse update(UUID id, UpdateRentalRequest request) {
@@ -69,7 +112,10 @@ public class RentalManager implements RentalService {
         var rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(id);
         repository.save(rental);
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
         return mapper.forResponse().map(rental, UpdateRentalResponse.class);
     }
 
@@ -86,6 +132,12 @@ public class RentalManager implements RentalService {
     private void sendKafkaRentalCreatedEvent(UUID carId) {
         producer.sendMessage(new RentalCreatedEvent(carId), "rental-created");
     }
+<<<<<<< HEAD
+=======
+    private void sendKafkaInvoiceCreatedEvent(InvoiceCreatedEvent event) {
+        producer.sendMessage(event, "invoice-created");
+    }
+>>>>>>> origin/main
 
     private void sendKafkaRentalDeletedEvent(UUID id) {
         var carId = repository.findById(id).orElseThrow().getCarId();

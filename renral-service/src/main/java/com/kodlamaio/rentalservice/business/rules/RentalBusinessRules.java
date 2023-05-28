@@ -36,12 +36,21 @@ public class RentalBusinessRules {
 
     public void setUpRentalRecord(Rental rental) {
         rental.setId(null);
+<<<<<<< HEAD
         rental.setTotalPrice(getTotalPrice(rental));
         rental.setRentedAt(LocalDate.now());
     }
 
     private double getTotalPrice(Rental rental) {
         return rental.getDailyPrice() * rental.getRentedForDays();
+=======
+        rental.setTotalPrice(getTotalPrice(rental.getDailyPrice(), rental.getRentedForDays()));
+        rental.setRentedAt(LocalDate.now());
+    }
+
+    public double getTotalPrice(Double dailyPrice, int rentedForDays) {
+        return dailyPrice * rentedForDays;
+>>>>>>> origin/main
     }
 
 
