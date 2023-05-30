@@ -10,7 +10,7 @@ services:
     environment:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
 
-  mongodb:
+  mongodb-filter:
     container_name: turkcell2-filterdb
     image: mongo
     ports:
@@ -18,12 +18,7 @@ services:
     volumes:
       - mongodb_data:/data/db
 
-<<<<<<< HEAD
-volumes:
-  kafka_data:
-  mongodb_data:
-=======
-  mongodb2:
+  mongodb-invoice:
     container_name: turkcell2-invoicedb
     image: mongo
     ports:
@@ -35,4 +30,4 @@ volumes:
   kafka_data:
   mongodb_data:
   mongodb_data2:
->>>>>>> origin/main
+

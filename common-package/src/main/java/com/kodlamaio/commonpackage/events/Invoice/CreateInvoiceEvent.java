@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InvoiceCreatedEvent extends Event {
+public class CreateInvoiceEvent extends Event {
     UUID carId;
     String cardHolder;
     String brandName;

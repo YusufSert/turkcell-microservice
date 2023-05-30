@@ -2,8 +2,7 @@ package com.kodlamaio.paymentservice.business.concretes;
 
 
 import com.kodlamaio.commonpackage.utils.dto.requests.PaymentRequest;
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
-import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.dto.request.create.CreatePaymentRequest;
@@ -67,8 +66,8 @@ public class PaymentManager implements PaymentService {
 
 
     @Override
-    public <T extends PaymentRequest> ClientResponse makePayment(T request) {
-        var clientResponse = new ClientResponse();
+    public <T extends PaymentRequest> ClientSuccessResponse makePayment(T request) {
+        var clientResponse = new ClientSuccessResponse();
         try{
             rules.makePayment(request);
             clientResponse.setSuccess(true);

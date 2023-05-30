@@ -34,8 +34,6 @@ public class PaymentBusinessRules {
         }
     }
 
-
-
      public void makeMoneyTransaction(String cardNumber, double price) throws BusinessException {
         Payment payment = repository.findPaymentByCardNumber(cardNumber);
         if(payment.getBalance() < price) {

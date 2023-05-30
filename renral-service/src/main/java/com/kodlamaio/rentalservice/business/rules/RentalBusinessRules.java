@@ -1,10 +1,13 @@
 package com.kodlamaio.rentalservice.business.rules;
 
+import com.kodlamaio.commonpackage.events.Invoice.CreateInvoiceEvent;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientCarResponse;
 import com.kodlamaio.rentalservice.api.clients.paymentl_rest_client.RentalPaymentRequest;
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.rentalservice.api.clients.inventory_rest_client.CarClient;
 import com.kodlamaio.rentalservice.api.clients.paymentl_rest_client.PaymentClient;
+import com.kodlamaio.rentalservice.business.dto.requests.CreateRentalRequest;
 import com.kodlamaio.rentalservice.entities.PaymentDetails;
 import com.kodlamaio.rentalservice.entities.Rental;
 import com.kodlamaio.rentalservice.repository.RentalRepository;
@@ -35,39 +38,41 @@ public class RentalBusinessRules {
     }
 
     public void setUpRentalRecord(Rental rental) {
-        rental.setId(null);
-<<<<<<< HEAD
-        rental.setTotalPrice(getTotalPrice(rental));
+        rental.setId(UUID.randomUUID());
+        rental.setTotalPrice(rental.getDailyPrice() * rental.getRentedForDays());
         rental.setRentedAt(LocalDate.now());
     }
 
-    private double getTotalPrice(Rental rental) {
-        return rental.getDailyPrice() * rental.getRentedForDays();
-=======
-        rental.setTotalPrice(getTotalPrice(rental.getDailyPrice(), rental.getRentedForDays()));
-        rental.setRentedAt(LocalDate.now());
-    }
-
-    public double getTotalPrice(Double dailyPrice, int rentedForDays) {
-        return dailyPrice * rentedForDays;
->>>>>>> origin/main
-    }
-
-
-    public void setUpAndMakePayment(PaymentDetails details, double price) {
-        var paymentRequest = new RentalPaymentRequest();
-        paymentRequest.setPrice(price);
-        paymentRequest.setCardNumber(details.getCardNumber());
-        paymentRequest.setCardCvv(details.getCardCvv());
-        paymentRequest.setMonth(details.getMonth());
-        paymentRequest.setYear(details.getYear());
-        paymentRequest.setCardHolderName(details.getCardHolderName());
+    public void setUpPaymentRequestAndMakePayment(PaymentDetails details, double price) {
+        RentalPaymentRequest paymentRequest = new RentalPaymentRequest(
+            details.getCardNumber(),
+            details.getCardCvv(),
+            details.getYear(),
+            details.getMonth(),
+            details.getCardHolderName(),
+            price
+        );
         makePayment(paymentRequest);
     }
-    public void makePayment(RentalPaymentRequest request) {
-        ClientResponse response = rentalClient.makePayment(request);
+    public void makePayment(RentalPaymentRequest request) throws BusinessException {
+        ClientSuccessResponse response = rentalClient.makePayment(request);
         if(!response.isSuccess()) {
             throw new BusinessException(response.getMessage());
         }
+    }
+
+    public CreateInvoiceEvent setUpCreateInvoiceEvent(CreateRentalRequest request) {
+        ClientCarResponse car = carClient.getCarById(request.getCarId());
+        return new CreateInvoiceEvent(
+            car.getId(),
+            request.getPaymentDetails().getCardHolderName(),
+            car.getModelBrandName(),
+            car.getPlate(),
+            car.getModelYear(),
+            request.getDailyPrice(),
+            LocalDate.now(),
+            request.getRentedForDays(),
+            request.getDailyPrice() * request.getRentedForDays()
+        );
     }
 }

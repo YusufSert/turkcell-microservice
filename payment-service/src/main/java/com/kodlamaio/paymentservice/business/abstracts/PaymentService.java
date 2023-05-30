@@ -2,7 +2,7 @@ package com.kodlamaio.paymentservice.business.abstracts;
 
 
 import com.kodlamaio.commonpackage.utils.dto.requests.PaymentRequest;
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.paymentservice.business.dto.request.create.CreatePaymentRequest;
 import com.kodlamaio.paymentservice.business.dto.request.update.UpdatePaymentRequest;
 import com.kodlamaio.paymentservice.business.dto.response.create.CreatePaymentResponse;
@@ -18,7 +18,7 @@ public interface PaymentService {
     GetPaymentResponse getById(UUID id);
     CreatePaymentResponse add(CreatePaymentRequest request);
 
-    <T extends PaymentRequest> ClientResponse makePayment(T request);
+    <T extends PaymentRequest> ClientSuccessResponse makePayment(T request);
 
     UpdatePaymentResponse update(UUID id, UpdatePaymentRequest request);
     void delete(UUID id);

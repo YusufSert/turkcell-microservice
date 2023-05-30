@@ -1,6 +1,6 @@
 package com.kodlamaio.maintenanceservice.business.rules;
 
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.maintenanceservice.api.clients.CarClient;
 import com.kodlamaio.maintenanceservice.entities.Maintenance;
@@ -36,7 +36,7 @@ public class MaintenanceBusinessRules {
     }
 
     public void checkCarAvailabilityForMaintenance(UUID carId) {
-       ClientResponse response = carClient.checkIfCarAvailable(carId);
+       ClientSuccessResponse response = carClient.checkIfCarAvailable(carId);
        if(!response.isSuccess()){
            throw new BusinessException(response.getMessage());
        }

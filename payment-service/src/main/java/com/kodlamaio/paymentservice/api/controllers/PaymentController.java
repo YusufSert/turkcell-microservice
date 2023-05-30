@@ -2,7 +2,7 @@ package com.kodlamaio.paymentservice.api.controllers;
 
 
 import com.kodlamaio.commonpackage.utils.dto.requests.PaymentRequest;
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.dto.request.create.CreatePaymentRequest;
 import com.kodlamaio.paymentservice.business.dto.request.update.UpdatePaymentRequest;
@@ -47,7 +47,7 @@ public class PaymentController {
     }
 
     @PostMapping("/make-payment")
-    public <T extends PaymentRequest> ClientResponse makePayment(@RequestBody T request) {
+    public <T extends PaymentRequest> ClientSuccessResponse makePayment(@RequestBody T request) {
         return service.makePayment(request);
     }
 

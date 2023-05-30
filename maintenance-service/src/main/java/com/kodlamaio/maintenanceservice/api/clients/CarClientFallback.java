@@ -1,13 +1,13 @@
 package com.kodlamaio.maintenanceservice.api.clients;
 
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 
 import java.util.UUID;
 
 public class CarClientFallback  implements CarClient{
 
     @Override
-    public ClientResponse checkIfCarAvailable(UUID carId) {
+    public ClientSuccessResponse checkIfCarAvailable(UUID carId) {
         return null;
     }
 }

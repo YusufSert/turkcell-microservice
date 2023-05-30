@@ -1,6 +1,6 @@
 package com.kodlamaio.inventoryservice.api.controllers;
 
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryservice.business.dto.requests.update.UpdateCarRequest;
@@ -49,7 +49,7 @@ public class CarsController {
         service.delete(id);
     }
     @GetMapping("/check-car-available/{id}")
-    public ClientResponse checkIfCarAvailable(@PathVariable UUID id) {
+    public ClientSuccessResponse checkIfCarAvailable(@PathVariable UUID id) {
         return service.checkIfCarAvailable(id);
     }
 }

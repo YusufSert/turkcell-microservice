@@ -1,4 +1,4 @@
-package com.kodlamaio.commonpackage.utils.dto.responses;
+package com.kodlamaio.commonpackage.utils.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetCarResponse {
+public abstract class CarResponse {
     private UUID id;
     private UUID modelId;
     private int modelYear;

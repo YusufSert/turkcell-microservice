@@ -1,29 +1,23 @@
 package com.kodlamaio.rentalservice.api.clients.inventory_rest_client;
 
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
-<<<<<<< HEAD
-=======
-import com.kodlamaio.commonpackage.utils.dto.responses.GetCarResponse;
->>>>>>> origin/main
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientCarResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 @Slf4j
 @Component
 public class CarClientFallback implements CarClient {
 
-    public ClientResponse checkIfCarAvailableInInventory(UUID carId) {
+    public ClientSuccessResponse checkIfCarAvailableInInventory(UUID carId) {
         log.info("Couldn't connect to inventory server not working properly !");
-        return new ClientResponse(false, "Couldn't connect to inventory server");
+        return new ClientSuccessResponse(false, "Couldn't connect to inventory server");
     }
-<<<<<<< HEAD
-=======
 
     @Override
-    public GetCarResponse getCarById(UUID carId) {
+    public ClientCarResponse getCarById(UUID carId) {
         return null;
     }
->>>>>>> origin/main
+
 }

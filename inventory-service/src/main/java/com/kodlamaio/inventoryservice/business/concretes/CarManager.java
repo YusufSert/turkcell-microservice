@@ -3,7 +3,7 @@ package com.kodlamaio.inventoryservice.business.concretes;
 import com.kodlamaio.commonpackage.events.inventory.CarCreatedEvent;
 import com.kodlamaio.commonpackage.events.inventory.CarDeletedEvent;
 import com.kodlamaio.commonpackage.kafka.producer.KafkaProducer;
-import com.kodlamaio.commonpackage.utils.dto.responses.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.responses.ClientSuccessResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
@@ -46,9 +46,7 @@ public class CarManager implements CarService {
     public GetCarResponse getById(UUID id) {
         rules.checkIfCarExists(id);
         var car = repository.findById(id).orElseThrow();
-        var response = mapper.forResponse().map(car, GetCarResponse.class);
-
-        return response;
+        return mapper.forResponse().map(car, GetCarResponse.class);
     }
 
     @Override
@@ -81,14 +79,14 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public ClientResponse checkIfCarAvailable(UUID id) {
+    public ClientSuccessResponse checkIfCarAvailable(UUID id) {
         return checkCarAvailabilityAndSetUpResponse(id);
     }
 
 
 
-    private ClientResponse checkCarAvailabilityAndSetUpResponse(UUID id) {
-        var response = new ClientResponse();
+    private ClientSuccessResponse checkCarAvailabilityAndSetUpResponse(UUID id) {
+        var response = new ClientSuccessResponse();
         try {
             rules.checkIfCarExists(id);
             rules.checkCarAvailability(id);
